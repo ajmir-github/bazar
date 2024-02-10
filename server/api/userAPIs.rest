@@ -1,0 +1,24 @@
+### GET USERS
+GET http://localhost:3001/api/user
+### GET SINGLE USER
+GET http://localhost:3001/api/user/65c78ca5f14d84938d8e88d3
+### CREATE A USER
+POST http://localhost:3001/api/user
+content-type: application/json
+
+{
+    "email": "ajmir@gmail.com",
+    "password": "123"
+}
+
+### UPDATE A USER
+PATCH  http://localhost:3001/api/user/65c68939736f7a677b855d20
+content-type: application/json
+
+{
+    "email": "ramiz@gmail.com"
+}
+
+
+### DELETE USER
+DELETE http://localhost:3001/api/user/65c68c029ffcf837bbf46cd5
