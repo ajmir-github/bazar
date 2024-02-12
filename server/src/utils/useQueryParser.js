@@ -165,7 +165,7 @@ module.exports =
     defaultSort = {},
     defaultLimit = 16,
     defaultSkip = 0,
-    defaultProjection
+    defaultProjection = {}
   ) =>
   ({ filter, sort, limit, skip, projection }) => {
     return {

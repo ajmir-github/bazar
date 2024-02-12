@@ -4,6 +4,8 @@ const { userServices } = require("../services");
 // --- Endpoint handlers
 exports.getUsers = async ({ query }) => {
   const users = await userServices.findSomeUsers(query);
+  for (const user of users) if (user.password) delete user.password;
+
   return { status: StatusCode.SUCCESS, data: users };
 };
 
@@ -16,6 +18,7 @@ exports.getUserById = async ({ params }) => {
         message: "User not found!",
       },
     };
+  if (user.password) delete user.password;
   return {
     status: StatusCode.SUCCESS,
     data: user,
