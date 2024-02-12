@@ -1,4 +1,4 @@
-exports.STATUS_CODE = {
+module.exports = {
   SUCCESS: 200,
   CREATED: 201,
   NO_CONTENT: 202,
@@ -8,9 +8,4 @@ exports.STATUS_CODE = {
   AUTHORIZATION_REQUIRED: 403,
   NOT_FOUND: 404,
   ERROR: 500,
-};
-
-exports.MODEL = {
-  USER: "User",
-  POST: "Post",
 };

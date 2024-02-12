@@ -1,22 +1,19 @@
 require("dotenv").config();
 const app = require("./app");
-const apiRouter = require("./api");
-const mongoose = require("mongoose");
+const { mongoClient } = require("./utils/database");
 // env
 const port = process.env.PORT || 4000;
-const databaseURL = process.env.DATABASE_URL;
 const clientOrigin = process.env.CLIENT_ORIGIN || "*";
 const devMode = process.env.NODE_ENV === "development";
+const databaseURL = process.env.DATABASE_URL;
 if (!databaseURL) throw new Error("Define DATABASE_URL in .env!");
 
 // create server app
-const server = app({ credentials: true, origin: clientOrigin }, apiRouter);
+const server = app({ credentials: true, origin: clientOrigin });
 
 // connect to the database
-mongoose
-  .connect(databaseURL, {
-    serverApi: mongoose.mongo.ServerApiVersion.v1,
-  })
+mongoClient
+  .connect()
   .then(() => console.log("+ Connected to the database"))
   .catch((error) =>
     console.error("- Failed to connect to the database!", devMode && error)
