@@ -159,24 +159,43 @@ const projectionParser = (projection) => {
   return projectionQuery;
 };
 
-module.exports =
-  (
-    defaultFilter = {},
-    defaultSort = {},
-    defaultLimit = 16,
-    defaultSkip = 0,
-    defaultProjection = {}
-  ) =>
-  ({ filter, sort, limit, skip, projection }) => {
+const defaultOptions = {
+  defaultFilter: {},
+  defaultSort: {},
+  defaultProjection: {},
+  defaultLimit: 16,
+  defaultSkip: 0,
+  onlyFilter: {},
+  onlySort: {},
+  onlyProjection: {},
+};
+module.exports = (options = defaultOptions) => {
+  const {
+    defaultFilter,
+    defaultLimit,
+    defaultProjection,
+    defaultSkip,
+    defaultSort,
+    onlyFilter,
+    onlyProjection,
+    onlySort,
+  } = {
+    ...defaultOptions,
+    ...options,
+  };
+  return ({ filter, sort, limit, skip, projection }) => {
     return {
-      filter: filter
-        ? { ...defaultFilter, ...filterQueryParser(filter) }
-        : defaultFilter,
-      sort: sort ? { ...defaultSort, ...sortQueryParser(sort) } : defaultSort,
-      projection: projection
-        ? { ...defaultProjection, ...projectionParser(projection) }
-        : defaultProjection,
+      filter: {
+        ...(filter ? filterQueryParser(filter) : defaultFilter),
+        ...onlyFilter,
+      },
+      sort: { ...(sort ? sortQueryParser(sort) : defaultSort), ...onlySort },
+      projection: {
+        ...(projection ? projectionParser(projection) : defaultProjection),
+        ...onlyProjection,
+      },
       limit: limit ? parseInt(limit) : defaultLimit,
       skip: skip ? parseInt(skip) : defaultSkip,
     };
   };
+};

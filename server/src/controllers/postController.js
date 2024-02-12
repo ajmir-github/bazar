@@ -1,5 +1,5 @@
 const { StatusCode } = require("../utils");
-const { postServices } = require("../services");
+const { postServices, userServices } = require("../services");
 
 exports.getPosts = async ({ query }) => {
   const posts = await postServices.findSomePosts(query);
@@ -15,6 +15,7 @@ exports.getPostById = async ({ params }) => {
         message: "Post not found!",
       },
     };
+  post.user = await userServices.findUserByID(post.userID);
   return {
     status: StatusCode.SUCCESS,
     data: post,

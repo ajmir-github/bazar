@@ -4,9 +4,9 @@ const { filterByID } = require("./shared");
 
 const queryParser = useQueryParser();
 // --- QUERIES
-exports.findSomePosts = async (query) => {
+exports.findSomePosts = async (query, onlyFilter = {}) => {
   const { filter, limit, skip, sort, projection } = queryParser(query);
-  return await PostCollection.find(filter, { projection })
+  return await PostCollection.find({ ...filter, ...onlyFilter }, { projection })
     .sort(sort)
     .limit(limit)
     .skip(skip)

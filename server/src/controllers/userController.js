@@ -1,5 +1,5 @@
 const { StatusCode } = require("../utils");
-const { userServices } = require("../services");
+const { userServices, postServices } = require("../services");
 
 // --- Endpoint handlers
 exports.getUsers = async ({ query }) => {
@@ -9,7 +9,7 @@ exports.getUsers = async ({ query }) => {
   return { status: StatusCode.SUCCESS, data: users };
 };
 
-exports.getUserById = async ({ params }) => {
+exports.getUserById = async ({ params, query }) => {
   const user = await userServices.findUserByID(params.id);
   if (!user)
     return {
@@ -19,6 +19,7 @@ exports.getUserById = async ({ params }) => {
       },
     };
   if (user.password) delete user.password;
+  user.posts = await postServices.findSomePosts(query, { userID: user._id });
   return {
     status: StatusCode.SUCCESS,
     data: user,
