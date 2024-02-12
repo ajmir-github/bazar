@@ -151,9 +151,9 @@ const projectionParser = (projection) => {
     .map((statement) => statement.trim());
   for (const statement of statements) {
     if (statement.startsWith("-")) {
-      projectionQuery[statement.slice(1)] = false;
+      projectionQuery[statement.slice(1)] = 0;
     } else {
-      projectionQuery[statement] = true;
+      projectionQuery[statement] = 1;
     }
   }
   return projectionQuery;
