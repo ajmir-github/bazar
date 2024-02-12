@@ -1,9 +1,16 @@
 const { PostCollection } = require("../utils/database");
+const useQueryParser = require("../utils/useQueryParser");
 const { filterByID } = require("./shared");
 
+const queryParser = useQueryParser();
 // --- QUERIES
-exports.findSomePosts = async () => {
-  return await PostCollection.find().toArray();
+exports.findSomePosts = async (query) => {
+  const { filter, limit, skip, sort, projection } = queryParser(query);
+  return await PostCollection.find(filter, { projection })
+    .sort(sort)
+    .limit(limit)
+    .skip(skip)
+    .toArray();
 };
 
 exports.findPostByID = async (id) => {

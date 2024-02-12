@@ -1,9 +1,17 @@
 const { UserCollection } = require("../utils/database");
+const useQueryParser = require("../utils/useQueryParser");
 const { filterByID } = require("./shared");
 
+const queryParser = useQueryParser();
 // --- QUERIES
-exports.findSomeUsers = async () => {
-  return await UserCollection.find().toArray();
+exports.findSomeUsers = async (query) => {
+  const { filter, limit, skip, sort, projection } = queryParser(query);
+  console.log(projection);
+  return await UserCollection.find(filter, { projection })
+    .sort(sort)
+    .limit(limit)
+    .skip(skip)
+    .toArray();
 };
 
 exports.findUserByID = async (id) => {

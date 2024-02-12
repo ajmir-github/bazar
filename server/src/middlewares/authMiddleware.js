@@ -2,16 +2,16 @@ const { encrypt, StatusCode } = require("../utils");
 const { userServices } = require("../services");
 
 // --- Authentication
-exports.onlyAuthenticated = async ({ method }, cache) => {
-  if (method === "GET") return; // ignore get requests
-  if (!request.headers.authorization)
+exports.onlyAuthenticated = async ({ headers, method }, cache) => {
+  if (method === "GET") return;
+  if (!headers.authorization)
     return {
       status: StatusCode.AUTHENTICATION_REQUIRED,
       data: {
         message: "Lacking authorization!",
       },
     };
-  const userId = encrypt.verifyToken(request.headers.authorization);
+  const userId = encrypt.verifyToken(headers.authorization);
   const user = await userServices.findUserByID(userId);
   if (!user)
     return {
@@ -25,7 +25,7 @@ exports.onlyAuthenticated = async ({ method }, cache) => {
 };
 
 // --- Authorization
-exports.onlyAuthorizedToMutateUser = (request, { auth, user }) => {
+exports.onlyAuthorizedToMutateUser = (_, { auth, user }) => {
   const authID = auth._id.toString();
   const userID = user._id.toString();
   if (authID === userID) return; // if the user is itself
@@ -38,10 +38,9 @@ exports.onlyAuthorizedToMutateUser = (request, { auth, user }) => {
     },
   };
 };
-exports.onlyAuthorizedToMutatePost = (request, { auth, post }) => {
-  if (auth.isAdmin) return;
+exports.onlyAuthorizedToMutatePost = (_, { auth, post }) => {
   const authID = auth._id.toString();
-  const postUserID = post.userID._id.toString();
+  const postUserID = post.userID.toString();
   if (authID !== postUserID)
     return {
       status: StatusCode.AUTHORIZATION_REQUIRED,
@@ -49,4 +48,14 @@ exports.onlyAuthorizedToMutatePost = (request, { auth, post }) => {
         message: "You are not allowed to change this post!",
       },
     };
+};
+
+exports.onlyAdmin = (_, { auth }) => {
+  if (auth.isAdmin) return;
+  return {
+    status: StatusCode.AUTHORIZATION_REQUIRED,
+    data: {
+      message: "You are not allowed to create a user unless you are an admin!",
+    },
+  };
 };

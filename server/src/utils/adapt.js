@@ -20,7 +20,8 @@ module.exports =
         return response.status(status || StatusCode.SUCCESS).json(data);
       }
       // if no return at all
-      throw new Error("The registered handlers are failed to respond!");
+      return next();
+      // throw new Error("The registered handlers are failed to respond!");
     } catch (error) {
       if (devMode) console.log(error);
       // catch all errors

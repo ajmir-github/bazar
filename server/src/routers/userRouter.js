@@ -11,6 +11,8 @@ userRouter.get("/:id", adapt(userController.getUserById));
 userRouter.post(
   "/",
   adapt(
+    authMiddleware.onlyAuthenticated,
+    authMiddleware.onlyAdmin,
     userMiddleware.isEmailUnique,
     userMiddleware.hashPassword,
     userController.createUser
@@ -20,9 +22,9 @@ userRouter.patch(
   "/:id",
   adapt(
     authMiddleware.onlyAuthenticated,
+    userController.cacheUser,
     authMiddleware.onlyAuthorizedToMutateUser,
     userMiddleware.isEmailUnique,
-    userController.cacheUser,
     userMiddleware.hashPassword,
     userController.updateUser
   )
@@ -31,8 +33,8 @@ userRouter.delete(
   "/:id",
   adapt(
     authMiddleware.onlyAuthenticated,
-    authMiddleware.onlyAuthorizedToMutateUser,
     userController.cacheUser,
+    authMiddleware.onlyAuthorizedToMutateUser,
     userController.deleteUser
   )
 );

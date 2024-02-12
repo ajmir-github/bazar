@@ -1,27 +1,12 @@
 const { StatusCode } = require("../utils");
 const { postServices } = require("../services");
 
-// --- Middlewares
-exports.cachePost = async ({ params }, cache) => {
-  const post = await postServices.findPostByID(params.id);
-  if (!post)
-    return {
-      status: StatusCode.NOT_FOUND,
-      data: {
-        message: "Post not found!",
-      },
-    };
-  cache.post = post;
-};
-
-// --- Endpoint handlers
-
-exports.getPosts = async (request) => {
-  const posts = await postServices.findSomePosts();
+exports.getPosts = async ({ query }) => {
+  const posts = await postServices.findSomePosts(query);
   return { status: StatusCode.SUCCESS, data: posts };
 };
 
-exports.getPostById = async (request) => {
+exports.getPostById = async ({ params }) => {
   const post = await postServices.findPostByID(params.id);
   if (!post)
     return {
@@ -36,26 +21,33 @@ exports.getPostById = async (request) => {
   };
 };
 
-exports.createPost = async ({ body }, cache) => {
-  const { success } = await postServices.createPost({
-    ...request.body,
-    userID: cache.auth._id,
-  });
+exports.createPost = async ({ body, query }, cache) => {
+  const { success, post } = await postServices.createPost(
+    {
+      ...body,
+      userID: cache.auth._id,
+    },
+    query.withReturn
+  );
   if (!success) throw new Error("Databaes failed to create a post!");
   return {
     status: StatusCode.CREATED,
-    data: {
+    data: post || {
       message: "Post created!",
     },
   };
 };
 
-exports.updatePost = async ({ params, body }) => {
-  const { success } = await postServices.updatePost(params.id, body);
+exports.updatePost = async ({ params, body, query }) => {
+  const { success, post } = await postServices.updatePost(
+    params.id,
+    body,
+    query.withReturn
+  );
   if (!success) throw new Error("Databaes failed to update the post!");
   return {
     status: StatusCode.SUCCESS,
-    data: {
+    data: post || {
       message: "Post updated!",
     },
   };
