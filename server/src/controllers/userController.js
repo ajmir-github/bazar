@@ -22,7 +22,6 @@ exports.getUsers = async (request) => {
 
 exports.getUserById = async ({ params }) => {
   const user = await userServices.findUserByID(params.id);
-  console.log(user);
   if (!user)
     return {
       status: StatusCode.NOT_FOUND,

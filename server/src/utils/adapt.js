@@ -1,5 +1,7 @@
 const StatusCode = require("./StatusCode");
 
+const devMode = process.env.NODE_ENV === "development";
+
 module.exports =
   (...handlers) =>
   async (request, response, next) => {
@@ -20,6 +22,7 @@ module.exports =
       // if no return at all
       throw new Error("The registered handlers are failed to respond!");
     } catch (error) {
+      if (devMode) console.log(error);
       // catch all errors
       response.status(StatusCode.ERROR).json({
         message: error.message,

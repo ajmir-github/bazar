@@ -32,7 +32,7 @@ exports.signIn = async (request) => {
 };
 exports.signUp = async (request) => {
   // create user
-  const { success, user } = await userServices.createUser(request.body);
+  const { success, user } = await userServices.createUser(request.body, true);
   if (!success) throw new Error("Database failed to create a user!");
   // sign token
   const token = encrypt.signToken(user._id.toString());
@@ -46,7 +46,23 @@ exports.signUp = async (request) => {
 };
 
 exports.getAuth = async (request, cache) => {
+  if (!request.headers.authorization)
+    return {
+      status: StatusCode.AUTHENTICATION_REQUIRED,
+      data: {
+        message: "Lacking authorization!",
+      },
+    };
+  const userId = encrypt.verifyToken(request.headers.authorization);
+  const user = await userServices.findUserByID(userId);
+  if (!user)
+    return {
+      status: StatusCode.AUTHENTICATION_REQUIRED,
+      data: {
+        message: "This user does not exist anymore!",
+      },
+    };
   return {
-    data: cache.auth,
+    data: user,
   };
 };

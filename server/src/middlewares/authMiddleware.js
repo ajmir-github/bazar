@@ -2,7 +2,7 @@ const { encrypt, StatusCode } = require("../utils");
 const { userServices } = require("../services");
 
 // --- Authentication
-exports.protectRoutes = async ({ method }, cache) => {
+exports.onlyAuthenticated = async ({ method }, cache) => {
   if (method === "GET") return; // ignore get requests
   if (!request.headers.authorization)
     return {
@@ -25,7 +25,7 @@ exports.protectRoutes = async ({ method }, cache) => {
 };
 
 // --- Authorization
-exports.isAuthorizedToMutateUser = (request, { auth, user }) => {
+exports.onlyAuthorizedToMutateUser = (request, { auth, user }) => {
   const authID = auth._id.toString();
   const userID = user._id.toString();
   if (authID === userID) return; // if the user is itself
@@ -38,7 +38,7 @@ exports.isAuthorizedToMutateUser = (request, { auth, user }) => {
     },
   };
 };
-exports.isAuthorizedToMutatePost = (request, { auth, post }) => {
+exports.onlyAuthorizedToMutatePost = (request, { auth, post }) => {
   if (auth.isAdmin) return;
   const authID = auth._id.toString();
   const postUserID = post.userID._id.toString();

@@ -5,8 +5,6 @@ const { userMiddleware, authMiddleware } = require("../middlewares");
 
 const userRouter = express.Router();
 
-userRouter.use(adapt(authMiddleware.protectRoutes));
-
 // --- userRoutes
 userRouter.get("/", adapt(userController.getUsers));
 userRouter.get("/:id", adapt(userController.getUserById));
@@ -21,7 +19,8 @@ userRouter.post(
 userRouter.patch(
   "/:id",
   adapt(
-    authMiddleware.isAuthorizedToMutateUser,
+    authMiddleware.onlyAuthenticated,
+    authMiddleware.onlyAuthorizedToMutateUser,
     userMiddleware.isEmailUnique,
     userController.cacheUser,
     userMiddleware.hashPassword,
@@ -31,7 +30,8 @@ userRouter.patch(
 userRouter.delete(
   "/:id",
   adapt(
-    authMiddleware.isAuthorizedToMutateUser,
+    authMiddleware.onlyAuthenticated,
+    authMiddleware.onlyAuthorizedToMutateUser,
     userController.cacheUser,
     userController.deleteUser
   )

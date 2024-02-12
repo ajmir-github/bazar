@@ -4,7 +4,6 @@ const { postController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
 
 const postRouter = express.Router();
-postRouter.use(adapt(authMiddleware.protectRoutes));
 
 // --- postRoutes
 postRouter.get("/", adapt(postController.getPosts));
@@ -13,7 +12,8 @@ postRouter.post("/", adapt(postController.createPost));
 postRouter.patch(
   "/:id",
   adapt(
-    authMiddleware.isAuthorizedToMutatePost,
+    authMiddleware.onlyAuthenticated,
+    authMiddleware.onlyAuthorizedToMutatePost,
     postController.cachePost,
     postController.updatePost
   )
@@ -21,7 +21,8 @@ postRouter.patch(
 postRouter.delete(
   "/:id",
   adapt(
-    authMiddleware.isAuthorizedToMutatePost,
+    authMiddleware.onlyAuthenticated,
+    authMiddleware.onlyAuthorizedToMutatePost,
     postController.cachePost,
     postController.deletePost
   )

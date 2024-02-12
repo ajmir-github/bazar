@@ -10,7 +10,11 @@ authRouter.get("/", adapt(authController.getAuth));
 authRouter.post("/sign-in", adapt(authController.signIn));
 authRouter.post(
   "/sign-up",
-  adapt(userMiddleware.isEmailUnique, authController.signUp)
+  adapt(
+    userMiddleware.isEmailUnique,
+    userMiddleware.hashPassword,
+    authController.signUp
+  )
 );
 
 module.exports = authRouter;
