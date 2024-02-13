@@ -3,6 +3,15 @@ const { postServices, userServices } = require("../services");
 
 exports.getPosts = async ({ query }) => {
   const posts = await postServices.findSomePosts(query);
+  await Promise.all(
+    posts.map(async (post) => {
+      post.user = await userServices.findUserByID(post.userID, {
+        fullName: true,
+        profileImage: true,
+        email: true,
+      });
+    })
+  );
   return { status: StatusCode.SUCCESS, data: posts };
 };
 

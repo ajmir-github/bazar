@@ -4,19 +4,20 @@ const { filterByID } = require("./shared");
 
 const queryParser = useQueryParser();
 // --- QUERIES
-exports.findSomeUsers = async (query) => {
-  const { filter, limit, skip, sort, projection } = queryParser(query);
+
+exports.findSomeUsers = async (query, projection = {}, onlyFilter = {}) => {
+  const { filter, limit, skip, sort } = queryParser(query);
   console.log(projection);
-  return await UserCollection.find(filter, { projection })
+  return await UserCollection.find({ ...filter, ...onlyFilter }, { projection })
     .sort(sort)
     .limit(limit)
     .skip(skip)
     .toArray();
 };
 
-exports.findUserByID = async (id) => {
+exports.findUserByID = async (id, projection = {}) => {
   const filter = filterByID(id);
-  return await UserCollection.findOne(filter);
+  return await UserCollection.findOne(filter, { projection });
 };
 
 exports.findUserByEmail = async (email) => {

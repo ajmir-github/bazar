@@ -4,8 +4,8 @@ const { filterByID } = require("./shared");
 
 const queryParser = useQueryParser();
 // --- QUERIES
-exports.findSomePosts = async (query, onlyFilter = {}) => {
-  const { filter, limit, skip, sort, projection } = queryParser(query);
+exports.findSomePosts = async (query, projection = {}, onlyFilter = {}) => {
+  const { filter, limit, skip, sort } = queryParser(query);
   return await PostCollection.find({ ...filter, ...onlyFilter }, { projection })
     .sort(sort)
     .limit(limit)
@@ -13,9 +13,9 @@ exports.findSomePosts = async (query, onlyFilter = {}) => {
     .toArray();
 };
 
-exports.findPostByID = async (id) => {
+exports.findPostByID = async (id, projection = {}) => {
   const filter = filterByID(id);
-  return await PostCollection.findOne(filter);
+  return await PostCollection.findOne(filter, { projection });
 };
 
 // --- MUTATIONS

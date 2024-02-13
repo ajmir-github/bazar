@@ -173,27 +173,22 @@ module.exports = (options = defaultOptions) => {
   const {
     defaultFilter,
     defaultLimit,
-    defaultProjection,
     defaultSkip,
     defaultSort,
     onlyFilter,
-    onlyProjection,
     onlySort,
   } = {
     ...defaultOptions,
     ...options,
   };
-  return ({ filter, sort, limit, skip, projection }) => {
+  return ({ filter, sort, limit, skip }) => {
     return {
       filter: {
         ...(filter ? filterQueryParser(filter) : defaultFilter),
         ...onlyFilter,
       },
       sort: { ...(sort ? sortQueryParser(sort) : defaultSort), ...onlySort },
-      projection: {
-        ...(projection ? projectionParser(projection) : defaultProjection),
-        ...onlyProjection,
-      },
+
       limit: limit ? parseInt(limit) : defaultLimit,
       skip: skip ? parseInt(skip) : defaultSkip,
     };

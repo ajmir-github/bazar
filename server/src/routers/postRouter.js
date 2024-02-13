@@ -1,12 +1,11 @@
 const express = require("express");
-const adapt = require("../utils/adapt");
+const { adapt, validators } = require("../utils");
 const { postController } = require("../controllers");
 const {
   authMiddleware,
   postMiddleware,
   sharedMiddleware,
 } = require("../middlewares");
-const postValidator = require("../validators/postValidator");
 
 const postRouter = express.Router();
 
@@ -19,7 +18,7 @@ postRouter.get(
 postRouter.post(
   "/",
   adapt(
-    sharedMiddleware.validateBodyMiddlewareBuilder(postValidator),
+    sharedMiddleware.validateBodyMiddlewareBuilder(validators.postValidator),
     authMiddleware.onlyAuthenticated,
     postController.createPost
   )
@@ -27,7 +26,9 @@ postRouter.post(
 postRouter.patch(
   "/:id",
   adapt(
-    sharedMiddleware.validateBodyMiddlewareBuilder(postValidator.partial()),
+    sharedMiddleware.validateBodyMiddlewareBuilder(
+      validators.postValidator.partial()
+    ),
     sharedMiddleware.validateIDParams,
     authMiddleware.onlyAuthenticated,
     postMiddleware.cachePost,

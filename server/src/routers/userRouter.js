@@ -1,12 +1,11 @@
 const express = require("express");
-const adapt = require("../utils/adapt");
+const { adapt, validators } = require("../utils");
 const { userController } = require("../controllers");
 const {
   userMiddleware,
   authMiddleware,
   sharedMiddleware,
 } = require("../middlewares");
-const userValidator = require("../validators/userValidator");
 
 const userRouter = express.Router();
 
@@ -19,7 +18,7 @@ userRouter.get(
 userRouter.post(
   "/",
   adapt(
-    sharedMiddleware.validateBodyMiddlewareBuilder(userValidator),
+    sharedMiddleware.validateBodyMiddlewareBuilder(validators.userValidator),
     authMiddleware.onlyAuthenticated,
     authMiddleware.onlyAdmin,
     userMiddleware.isEmailUnique,
@@ -30,7 +29,9 @@ userRouter.post(
 userRouter.patch(
   "/:id",
   adapt(
-    sharedMiddleware.validateBodyMiddlewareBuilder(userValidator.partial()),
+    sharedMiddleware.validateBodyMiddlewareBuilder(
+      validators.userValidator.partial()
+    ),
     sharedMiddleware.validateIDParams,
     authMiddleware.onlyAuthenticated,
     userController.cacheUser,

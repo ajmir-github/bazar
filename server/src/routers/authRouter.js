@@ -1,8 +1,7 @@
 const express = require("express");
-const adapt = require("../utils/adapt");
+const { adapt, validators } = require("../utils");
 const { authController } = require("../controllers");
 const { userMiddleware, sharedMiddleware } = require("../middlewares");
-const userValidator = require("../validators/userValidator");
 
 const authRouter = express.Router();
 
@@ -12,7 +11,7 @@ authRouter.post(
   "/sign-in",
   adapt(
     sharedMiddleware.validateBodyMiddlewareBuilder(
-      userValidator.pick({ email: true, password: true })
+      validators.userValidator.pick({ email: true, password: true })
     ),
     authController.signIn
   )
@@ -21,7 +20,11 @@ authRouter.post(
   "/sign-up",
   adapt(
     sharedMiddleware.validateBodyMiddlewareBuilder(
-      userValidator.pick({ email: true, password: true })
+      validators.userValidator.pick({
+        email: true,
+        password: true,
+        fullName: true,
+      })
     ),
     userMiddleware.isEmailUnique,
     userMiddleware.hashPassword,

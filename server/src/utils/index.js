@@ -4,6 +4,7 @@ const StatusCode = require("./StatusCode");
 const encrypt = require("./encrypt");
 const formatZodError = require("./formatZodError");
 const isID = require("./isID");
+const validators = require("./validators");
 
 module.exports = {
   adapt,
@@ -12,4 +13,5 @@ module.exports = {
   encrypt,
   formatZodError,
   isID,
+  validators,
 };
