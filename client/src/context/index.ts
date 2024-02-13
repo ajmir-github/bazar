@@ -4,7 +4,7 @@ import type { TypedUseSelectorHook } from "react-redux";
 import uiSlice from "./uiSlice";
 import authSlice from "./authSlice";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     ui: uiSlice.reducer,
     auth: authSlice.reducer,
@@ -19,3 +19,5 @@ export type AppDispatch = typeof store.dispatch;
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export default store;

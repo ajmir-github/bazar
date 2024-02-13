@@ -1,19 +1,19 @@
-import Category from "@/interface/Category";
 import {
   HomeIcon,
   InfoIcon,
   ListTreeIcon,
   LogInIcon,
+  MenuIcon,
   UserPlusIcon,
 } from "lucide-react";
-import Link from "next/link";
-import { IconSize } from "../constants";
+import { IconSize } from "../../constants";
+import { Link } from "react-router-dom";
 
-export default function NavBar({ categories }: { categories: Category[] }) {
+export default function NavBar({ categories }: { categories: string[] }) {
   const MenuItems = () => (
     <>
       <li>
-        <Link href={"/"}>
+        <Link to={"/"}>
           <HomeIcon size={IconSize.sm} /> Home
         </Link>
       </li>
@@ -21,27 +21,19 @@ export default function NavBar({ categories }: { categories: Category[] }) {
         <details>
           <summary>
             <ListTreeIcon size={IconSize.sm} />
-            Items
+            Category
           </summary>
           <ul className="p-2">
-            {categories.map(({ id, name }) => (
-              <li key={id}>
-                <Link
-                  href={{
-                    query: {
-                      category: id,
-                    },
-                  }}
-                >
-                  {name}
-                </Link>
+            {categories.map((categories) => (
+              <li key={categories}>
+                <Link to={`/?category=${categories}`}>{categories}</Link>
               </li>
             ))}
           </ul>
         </details>
       </li>
       <li>
-        <Link href={"/about"}>
+        <Link to={"/about"}>
           <InfoIcon size={IconSize.sm} /> About
         </Link>
       </li>
@@ -49,24 +41,11 @@ export default function NavBar({ categories }: { categories: Category[] }) {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-lg rounded-xl">
+    <div className="navbar bg-base-100 bg-opacity-75 shadow-lg">
       <div className="navbar-start gap-2">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+            <MenuIcon size={IconSize.md} />
           </div>
           <ul
             tabIndex={0}
@@ -75,7 +54,7 @@ export default function NavBar({ categories }: { categories: Category[] }) {
             <MenuItems />
           </ul>
         </div>
-        <Link href={"/"} className="btn btn-ghost text-xl">
+        <Link to={"/"} className="btn btn-ghost text-xl">
           Bazar
         </Link>
       </div>
@@ -86,11 +65,11 @@ export default function NavBar({ categories }: { categories: Category[] }) {
       </div>
       <div className="navbar-end">
         <div className="flex gap-2">
-          <Link href={"/login"} className="join-item btn btn-ghost">
+          <Link to={"/login"} className="join-item btn btn-ghost">
             <LogInIcon size={IconSize.md} />
             <span className="hidden sm:block">Login</span>
           </Link>
-          <Link href={"/register"} className="join-item btn btn-primary">
+          <Link to={"/register"} className="join-item btn btn-primary">
             <UserPlusIcon size={IconSize.md} />
             <span className="hidden sm:block">Register</span>
           </Link>

@@ -1,54 +1,25 @@
-import { AppIcon } from "@/components/Icons";
-import { useAppSelector } from "@/context";
-import authSlice from "@/context/authSlice";
-import { ReactNode, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import Footer from "@/components/Footer";
+import NavBar from "@/components/NavBar";
+import { ReactNode } from "react";
 
-const getAuth = async () => {
-  await new Promise((response) => {
-    setTimeout(() => {
-      response(null);
-    }, 0);
-  });
-  // return null;
-  return {
-    id: "sdasd",
-    fullName: "Ajmir Raziqi",
-    email: "asdasd",
-  };
-};
+const categories: string[] = [
+  "Electronics",
+  "Computers",
+  "Clothes",
+  "Cars",
+  "House appliance",
+];
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  const theme = useAppSelector((state) => state.ui.theme);
-  const [loading, setLoading] = useState<boolean>(true);
-  const dispatch = useDispatch();
-
-  const initAuth = async () => {
-    const auth = await getAuth();
-    dispatch(
-      auth ? authSlice.actions.signIn(auth) : authSlice.actions.signOut()
-    );
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    initAuth();
-  }, []);
+export function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <div
-      className="flex justify-center items-center flex-col min-h-screen"
-      data-theme={theme}
-    >
-      {loading ? (
-        <div className="flex flex-col items-center gap-4">
-          <AppIcon size={128} className="text-primary animate-pulse" />
-          <i className="opacity-50">Loading..</i>
-        </div>
-      ) : (
-        <div className="flex flex-col grow w-full max-w-screen-md">
+    <div data-theme="light" className="bg-anime">
+      <div className="min-h-screen flex flex-col justify-between items-stretch bg-base-100 bg-opacity-75">
+        <NavBar categories={categories} />
+        <main className="p-2 md:p-4 flex flex-col gap-2 md:gap-4 grow">
           {children}
-        </div>
-      )}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

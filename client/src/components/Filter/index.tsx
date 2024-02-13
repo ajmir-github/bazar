@@ -1,7 +1,6 @@
-import Category from "@/interface/Category";
 import { FilterIcon, XIcon } from "lucide-react";
-import { IconSize } from "../constants";
-import Link from "next/link";
+import { IconSize } from "../../constants";
+import { Link } from "react-router-dom";
 
 interface Props {
   searchParams: {
@@ -10,13 +9,13 @@ interface Props {
     minPrice?: string;
     maxPrice?: string;
   };
-  categories: Category[];
+  categories: string[];
 }
 
 export default function Filter({ categories, searchParams }: Props) {
   return (
     <form
-      className="grid gap-2 bg-base-100 shadow-lg p-2 rounded-xl lg:col-span-2"
+      className="grid gap-2 p-4 rounded-box shadow-xl bg-opacity-75 bg-base-100 grow"
       action={"/"}
     >
       <label className="form-control">
@@ -43,9 +42,9 @@ export default function Filter({ categories, searchParams }: Props) {
           defaultValue={searchParams.category}
         >
           <option value={""}>Any</option>
-          {categories.map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
             </option>
           ))}
         </select>
@@ -80,7 +79,7 @@ export default function Filter({ categories, searchParams }: Props) {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Link href={"/"} className="btn btn-neutral">
+        <Link to={"/"} className="btn btn-neutral">
           <XIcon size={IconSize.md} />
           Reset
         </Link>

@@ -1,20 +1,12 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  EyeIcon,
-  MapPinIcon,
-  TagIcon,
-} from "lucide-react";
-import { IconSize } from "../constants";
-import Link from "next/link";
+import { ArrowRightIcon, EyeIcon, MapPinIcon, TagIcon } from "lucide-react";
 
 export default function ItemList() {
-  const items = [1, 2, 3, 4, 5];
+  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2 xl:grid-cols-4">
       {items.map((item) => (
         <div
-          className="card bg-base-100 shadow-lg overflow-hidden relative"
+          className="card bg-base-100 shadow-xl bg-opacity-75 overflow-hidden relative"
           key={item}
         >
           <img

@@ -4,7 +4,7 @@ export default function Stats({
   stats: { deals: number; items: number; users: number };
 }) {
   return (
-    <div className="stats stats-vertical bg-base-100 shadow-lg">
+    <div className="stats stats-vertical bg-base-100 bg-opacity-75 shadow-lg">
       <div className="stat place-items-center">
         <div className="stat-title">Deals</div>
         <div className="stat-value">{stats.deals}</div>
