@@ -4,11 +4,12 @@ import { LogInIcon, UserPlusIcon } from "lucide-react";
 export default function RegisterPage() {
   return (
     <div className="flex justify-center items-center grow">
-      <div className="p-4 w-full max-w-md grid gap-4">
-        <div className="flex justify-center flex-col items-center p-2 gap-2 text-primary">
-          <UserPlusIcon size={64} />
-          <h1 className="font-bold">Register yourself here!</h1>
-        </div>
+      <div className="p-4 w-full max-w-md grid gap-4 bg-base-100 bg-opacity-50 rounded-box shadow-xl">
+        <h1 className="flex gap-2 items-center font-bold">
+          <UserPlusIcon size={IconSize.lg} />
+          Register yourself here!
+        </h1>
+
         <div>
           <label className="form-control w-full ">
             <div className="label">

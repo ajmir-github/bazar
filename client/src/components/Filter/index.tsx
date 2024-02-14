@@ -1,6 +1,6 @@
 import { FilterIcon, XIcon } from "lucide-react";
 import { IconSize } from "../../constants";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface Props {
   searchParams: {

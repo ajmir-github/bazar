@@ -4,7 +4,25 @@ import Stats from "@/components/Stats";
 import { IconSize } from "@/constants";
 import { ArrowDownIcon } from "lucide-react";
 
+function getParams<ReturnQuery = object>(windowObject: Window) {
+  const query: any = {};
+  const searchParams = new URLSearchParams(windowObject.location.search);
+  searchParams.forEach((value, key) => {
+    query[key] = value;
+  });
+  return query as ReturnQuery;
+}
+
 export default function HomePage() {
+  const searchParams = getParams<{
+    category?: string;
+    keywords?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    limit?: string;
+    skip?: string;
+  }>(window);
+  console.log(searchParams);
   return (
     <>
       <div className="flex flex-col sm:flex-row gap-2">

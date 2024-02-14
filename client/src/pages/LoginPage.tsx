@@ -4,7 +4,7 @@ import { LogInIcon } from "lucide-react";
 export default function LoginPage() {
   return (
     <div className="flex justify-center items-center grow">
-      <div className="p-4 w-full max-w-md grid gap-4">
+      <div className="p-4 w-full max-w-md grid gap-4 bg-base-100 bg-opacity-50 rounded-box shadow-xl">
         <h1 className="flex gap-2 items-center font-bold">
           <LogInIcon size={IconSize.lg} /> Log In here
         </h1>
