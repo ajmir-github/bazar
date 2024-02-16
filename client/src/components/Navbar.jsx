@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { NavLink, useLocation } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LoginIcon from "@mui/icons-material/Login";
 
 export default function Navbar() {
   const signed = 0;
@@ -44,6 +45,12 @@ export default function Navbar() {
       href: "/register",
       label: "Register",
       icon: <PersonAddIcon />,
+      onlyUnSigned: true,
+    },
+    {
+      href: "/login",
+      label: "Login",
+      icon: <LoginIcon />,
       onlyUnSigned: true,
     },
   ];

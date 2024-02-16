@@ -11,6 +11,7 @@ import SinglePostPage from "./pages/SinglePostPage";
 import RegisterPage from "./pages/RegisterPage";
 import ListingsPage, { listingsPageLoader } from "./pages/ListingsPage";
 import SettingsPage from "./pages/SettingsPage";
+import LoginPage from "./pages/LoginPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/post/:id" element={<SinglePostPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
     </Route>
   )
 );

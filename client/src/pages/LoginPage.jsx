@@ -1,7 +1,7 @@
 import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LoginIcon from "@mui/icons-material/Login";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   return (
     <Grid
       container
@@ -16,18 +16,12 @@ export default function RegisterPage() {
           gap={2}
           color={(theme) => theme.palette.primary.main}
         >
-          <PersonAddIcon fontSize="large" />
+          <LoginIcon fontSize="large" />
 
-          <Typography fontSize={"large"}>Register Here</Typography>
+          <Typography fontSize={"large"}>Login Here</Typography>
         </Grid>
-        <TextField id="outlined-basic" label="Full Name" variant="outlined" />
         <TextField id="outlined-basic" label="Email" variant="outlined" />
         <TextField id="outlined-basic" label="Password" variant="outlined" />
-        <TextField
-          id="outlined-basic"
-          label="Confirm Password"
-          variant="outlined"
-        />
 
         <Button variant="contained">Sign In</Button>
       </Stack>
