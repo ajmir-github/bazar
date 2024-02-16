@@ -8,9 +8,10 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { NavLink, useLocation } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
-  const signed = 0;
+  const signed = useSelector((s) => s.auth.signed);
   const location = useLocation();
   const Links = [
     {

@@ -1,11 +1,14 @@
+import { Stack } from "@mui/material";
+import ListingsOptions from "../components/ListingsOptions";
+
 export const listingsPageLoader = async () => {
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 2000);
-  });
+  return [];
 };
 
 export default function ListingsPage() {
-  return "ListingsPage";
+  return (
+    <Stack>
+      <ListingsOptions />
+    </Stack>
+  );
 }

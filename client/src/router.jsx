@@ -3,7 +3,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import AppLayout from "./layouts/AppLayout";
+import AppLayout, { appLoader } from "./layouts/AppLayout";
 import SearchPage from "./pages/SearchPage";
 import AddPostPage from "./pages/AddPostPage";
 import WishlistPage from "./pages/WishlistPage";
