@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/context";
+import clsx from "clsx";
 import {
   ShoppingCartIcon,
   SearchIcon,
@@ -9,14 +10,13 @@ import {
   PlusIcon,
   LogInIcon,
   UserPlusIcon,
+  UserIcon,
 } from "lucide-react";
-import { useAppSelector } from "@/context";
 
 type LinkType = {
   href: string;
   label: string;
   icon: ReactNode;
-  onlySigned: null | boolean;
 };
 const links: LinkType[] = [
   { href: "/", label: "Listings", icon: <ListIcon />, onlySigned: null },
@@ -48,29 +48,43 @@ const links: LinkType[] = [
   },
 ];
 
+const Link = ({ href, icon, label }: LinkType) => (
+  <NavLink
+    to={href}
+    key={label}
+    className={(state) =>
+      clsx(
+        "btn btn-ghost grow justify-start",
+        state.isActive && "btn-active",
+        state.isPending && "btn-active animate-pulse"
+      )
+    }
+  >
+    {icon} <span className="hidden sm:block">{label}</span>
+  </NavLink>
+);
+
 export default function Navbar() {
-  const signed = useAppSelector((s) => s.auth.signed);
-  const filterLinks = ({ onlySigned }: LinkType) => {
-    if (onlySigned === null) return true;
-    if (signed && onlySigned) return true;
-    if (!signed && !onlySigned) return true;
-  };
+  const signed = useAppSelector((s) => !s.auth.signed);
   return (
-    <div className="flex justify-center p-2 border-t-[1px] shadow-xl">
-      <div className="grid grid-flow-col gap-1">
-        {links.filter(filterLinks).map(({ href, icon, label }) => (
-          <NavLink to={href} key={label}>
-            {(state) => (
-              <Button
-                variant={state.isActive ? "secondary" : "ghost"}
-                className="gap-2 w-full flex flex-col h-auto sm:flex-row"
-              >
-                {icon} {label}
-              </Button>
-            )}
-          </NavLink>
-        ))}
+    <div className="flex flex-col justify-between p-2 bg-base-300 shadow-xl shrink-0">
+      <div className="flex gap-2 flex-col">
+        <Link href="/" label="Listings" icon={<ListIcon />} />
+        <Link href="/" label="Categories" icon={<ListIcon />} />
+        <Link href="/search" label="Search" icon={<SearchIcon />} />
       </div>
+
+      {signed ? (
+        <div className="flex gap-2 flex-col">
+          <Link href="/profile" label="Profile" icon={<UserIcon />} />
+          <Link href="/settings" label="Settings" icon={<SettingsIcon />} />
+        </div>
+      ) : (
+        <div className="flex gap-2 flex-col">
+          <Link href="/login" label="Login" icon={<LogInIcon />} />
+          <Link href="/register" label="Register" icon={<UserPlusIcon />} />
+        </div>
+      )}
     </div>
   );
 }

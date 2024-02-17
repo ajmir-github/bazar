@@ -1,9 +1,25 @@
+import Listings from "@/components/Listings";
 import ListingsOptions from "@/components/ListingsOptions";
 
 export default function ListingsPage() {
   return (
-    <div>
+    <div className="overflow-y-scroll grow">
       <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
+      <ListingsOptions />
+      <Listings />
     </div>
   );
 }

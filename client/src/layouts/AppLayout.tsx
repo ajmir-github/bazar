@@ -1,12 +1,11 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Navbar from "@/components/Navbar";
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function AppLayout() {
   return (
-    <div className="flex h-screen flex-col-reverse w-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden">
       <Navbar />
-      <ScrollArea className="grow">{children}</ScrollArea>
+      <Outlet />
     </div>
   );
 }

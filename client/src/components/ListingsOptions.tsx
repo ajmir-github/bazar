@@ -1,38 +1,18 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "./ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useSearchParams } from "react-router-dom";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
-import { Button } from "./ui/button";
+import { useSearchParams } from "react-router-dom";
 import { FilterIcon } from "lucide-react";
 import { useEffect } from "react";
 
 const categories = [];
 
 const FormSchema = z.object({
-  category: z.string(),
-  condition: z.string(),
+  category: z.string().optional(),
+  condition: z.string().optional(),
   minPrice: z.string().optional(),
   maxPrice: z.string().optional(),
-  sort: z.string(),
+  sort: z.string().optional(),
 });
 export default function ListingsOptions() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,7 +21,7 @@ export default function ListingsOptions() {
     defaultValues: {
       condition: "*",
       category: "*",
-      sort: "date::asc",
+      sort: "*",
     },
   });
 
@@ -59,126 +39,78 @@ export default function ListingsOptions() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="p-2 gap-2 grid grid-cols-2 md:grid-cols-6 items-end"
-      >
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="*">Any</SelectItem>
-                  <SelectItem value="Electronics">Electronics</SelectItem>
-                  <SelectItem value="Clothes">Clothes</SelectItem>
-                  <SelectItem value="Vahicles">Vahicles</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="condition"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Condition</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Conidtion" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="*">Any</SelectItem>
-                  <SelectItem value="date::assc">New</SelectItem>
-                  <SelectItem value="price::aasdsc">barely used</SelectItem>
-                  <SelectItem value="date::desdac">Used</SelectItem>
-                  <SelectItem value="price:deswc">Old</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form
+      className="p-2 gap-2 grid grid-cols-2 md:grid-cols-6 items-end bg-base-300"
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">category</span>
+        </div>
+        <select
+          className="select select-bordered"
+          {...form.register("category")}
+        >
+          <option value="*">Any</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Vahicles">Vahicles</option>
+        </select>
+      </label>
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">condition</span>
+        </div>
+        <select
+          className="select select-bordered"
+          {...form.register("condition")}
+        >
+          <option value="*">Any</option>
+          <option value="date::assc">New</option>
+          <option value="price::aasdsc">barely used</option>
+          <option value="date::desdac">Used</option>
+          <option value="price:deswc">Old</option>
+        </select>
+      </label>
 
-        <FormField
-          control={form.control}
-          name="minPrice"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Min Price</FormLabel>
-              <Input
-                type="number"
-                defaultValue={field.value}
-                onChange={field.onChange}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">minPrice</span>
+        </div>
+        <input
+          type="number"
+          className="input input-bordered"
+          {...form.register("minPrice")}
         />
-        <FormField
-          control={form.control}
-          name="maxPrice"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Max Price</FormLabel>
-              <Input
-                type="number"
-                defaultValue={field.value}
-                onChange={field.onChange}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
+      </label>
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">maxPrice</span>
+        </div>
+        <input
+          type="number"
+          className="input input-bordered"
+          {...form.register("maxPrice")}
         />
+      </label>
 
-        <FormField
-          control={form.control}
-          name="sort"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Sort</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sort" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Sort by date</SelectLabel>
-                    <SelectItem value="date::asc">Sort Newest</SelectItem>
-                    <SelectItem value="date::desc">Sort Oldest</SelectItem>
-                  </SelectGroup>
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">sort</span>
+        </div>
+        <select className="select select-bordered" {...form.register("sort")}>
+          <option value="*">Sort Newest</option>
+          <option value="date::desc">Sort Oldest</option>
 
-                  <SelectGroup>
-                    <SelectLabel>Sort by price</SelectLabel>
-                    <SelectItem value="price::asc">Sort Heighest</SelectItem>
-                    <SelectItem value="price:desc">Sort Lowest</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <option value="price::asc">Sort Heighest</option>
+          <option value="price:desc">Sort Lowest</option>
+        </select>
+      </label>
 
-        <Button type="submit" className="gap-1">
-          <FilterIcon size={16} />
-          Filter
-        </Button>
-      </form>
-    </Form>
+      <button type="submit" className="btn btn-primary">
+        <FilterIcon size={20} />
+        Filter
+      </button>
+    </form>
   );
 }
