@@ -6,20 +6,6 @@ export default function ListingsPage() {
     <div className="overflow-y-scroll grow">
       <ListingsOptions />
       <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
-      <ListingsOptions />
-      <Listings />
     </div>
   );
 }

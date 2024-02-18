@@ -1,55 +1,34 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "react-router-dom";
-import { FilterIcon } from "lucide-react";
-import { useEffect } from "react";
 
-const categories = [];
-
-const FormSchema = z.object({
-  category: z.string().optional(),
-  condition: z.string().optional(),
-  minPrice: z.string().optional(),
-  maxPrice: z.string().optional(),
-  sort: z.string().optional(),
-});
 export default function ListingsOptions() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      condition: "*",
-      category: "*",
-      sort: "*",
-    },
-  });
 
-  useEffect(() => {
-    const query = Object.fromEntries(searchParams.entries());
-    form.reset(query);
-  }, [searchParams]);
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // const onlyDefinedInputs = JSON.parse(JSON.stringify(data));
-    const onlyDefinedInputs = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => !(!value || value === "*"))
-    );
-    setSearchParams(onlyDefinedInputs);
+  function setInput(name: string, value: string) {
+    const prev = Object.fromEntries(searchParams.entries());
+    if (value === "" || value === "*") {
+      if (prev[name]) delete prev[name];
+      setSearchParams(prev);
+    } else {
+      setSearchParams({
+        ...prev,
+        [name]: value,
+      });
+    }
+  }
+  function getInput(name: string, defaultValue: string = "") {
+    return searchParams.get(name) || defaultValue;
   }
 
   return (
-    <form
-      className="p-2 gap-2 grid grid-cols-2 md:grid-cols-6 items-end bg-base-300"
-      onSubmit={form.handleSubmit(onSubmit)}
-    >
+    <div className="p-2 gap-2 grid grid-cols-2 md:grid-cols-6 items-end bg-base-100 shadow-lg md:sticky top-0 z-10">
       <label className="form-control">
         <div className="label">
-          <span className="label-text">category</span>
+          <span className="label-text">Category</span>
         </div>
         <select
           className="select select-bordered"
-          {...form.register("category")}
+          defaultValue={getInput("category") || "*"}
+          onChange={(e) => setInput("category", e.target.value)}
         >
           <option value="*">Any</option>
           <option value="Electronics">Electronics</option>
@@ -57,13 +36,31 @@ export default function ListingsOptions() {
           <option value="Vahicles">Vahicles</option>
         </select>
       </label>
+
       <label className="form-control">
         <div className="label">
-          <span className="label-text">condition</span>
+          <span className="label-text">Location</span>
         </div>
         <select
           className="select select-bordered"
-          {...form.register("condition")}
+          defaultValue={getInput("location") || "*"}
+          onChange={(e) => setInput("location", e.target.value)}
+        >
+          <option value="*">Any where</option>
+          <option value="location::kabul">kabul</option>
+          <option value="location::Mazar">Mazar</option>
+          <option value="location:Herat">Herat</option>
+        </select>
+      </label>
+
+      <label className="form-control">
+        <div className="label">
+          <span className="label-text">Condition</span>
+        </div>
+        <select
+          className="select select-bordered"
+          defaultValue={getInput("condition") || "*"}
+          onChange={(e) => setInput("condition", e.target.value)}
         >
           <option value="*">Any</option>
           <option value="date::assc">New</option>
@@ -75,30 +72,36 @@ export default function ListingsOptions() {
 
       <label className="form-control">
         <div className="label">
-          <span className="label-text">minPrice</span>
+          <span className="label-text">Minimum price</span>
         </div>
         <input
           type="number"
           className="input input-bordered"
-          {...form.register("minPrice")}
+          defaultValue={getInput("minPrice") || ""}
+          onChange={(e) => setInput("minPrice", e.target.value)}
         />
       </label>
       <label className="form-control">
         <div className="label">
-          <span className="label-text">maxPrice</span>
+          <span className="label-text">Maximum Price</span>
         </div>
         <input
           type="number"
           className="input input-bordered"
-          {...form.register("maxPrice")}
+          defaultValue={getInput("maxPrice") || ""}
+          onChange={(e) => setInput("maxPrice", e.target.value)}
         />
       </label>
 
       <label className="form-control">
         <div className="label">
-          <span className="label-text">sort</span>
+          <span className="label-text">Sort</span>
         </div>
-        <select className="select select-bordered" {...form.register("sort")}>
+        <select
+          className="select select-bordered"
+          defaultValue={getInput("sort") || "*"}
+          onChange={(e) => setInput("sort", e.target.value)}
+        >
           <option value="*">Sort Newest</option>
           <option value="date::desc">Sort Oldest</option>
 
@@ -106,11 +109,6 @@ export default function ListingsOptions() {
           <option value="price:desc">Sort Lowest</option>
         </select>
       </label>
-
-      <button type="submit" className="btn btn-primary">
-        <FilterIcon size={20} />
-        Filter
-      </button>
-    </form>
+    </div>
   );
 }

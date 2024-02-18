@@ -11,44 +11,21 @@ import {
   LogInIcon,
   UserPlusIcon,
   UserIcon,
+  InfoIcon,
+  ListTreeIcon,
 } from "lucide-react";
 
-type LinkType = {
+const Link = ({
+  href,
+  icon,
+  label,
+  disabled,
+}: {
   href: string;
   label: string;
   icon: ReactNode;
-};
-const links: LinkType[] = [
-  { href: "/", label: "Listings", icon: <ListIcon />, onlySigned: null },
-  { href: "/search", label: "Search", icon: <SearchIcon />, onlySigned: null },
-  { href: "/post", label: "Post", icon: <PlusIcon />, onlySigned: true },
-  {
-    href: "/wishlist",
-    label: "Wishlist",
-    icon: <ShoppingCartIcon />,
-    onlySigned: true,
-  },
-  {
-    href: "/settings",
-    label: "Settings",
-    icon: <SettingsIcon />,
-    onlySigned: true,
-  },
-  {
-    href: "/register",
-    label: "Register",
-    icon: <UserPlusIcon />,
-    onlySigned: false,
-  },
-  {
-    href: "/login",
-    label: "Login",
-    icon: <LogInIcon />,
-    onlySigned: false,
-  },
-];
-
-const Link = ({ href, icon, label }: LinkType) => (
+  disabled?: boolean;
+}) => (
   <NavLink
     to={href}
     key={label}
@@ -56,7 +33,8 @@ const Link = ({ href, icon, label }: LinkType) => (
       clsx(
         "btn btn-ghost grow justify-start",
         state.isActive && "btn-active",
-        state.isPending && "btn-active animate-pulse"
+        state.isPending && "btn-active animate-pulse",
+        disabled && "btn-disabled"
       )
     }
   >
@@ -65,26 +43,41 @@ const Link = ({ href, icon, label }: LinkType) => (
 );
 
 export default function Navbar() {
-  const signed = useAppSelector((s) => !s.auth.signed);
+  const signed = useAppSelector((state) => state.auth.signed);
   return (
-    <div className="flex flex-col justify-between p-2 bg-base-300 shadow-xl shrink-0">
+    <div className="flex flex-col justify-between p-2 shadow-lg shrink-0 bg-base-100 ">
       <div className="flex gap-2 flex-col">
+        <Link
+          href="/post"
+          label="post"
+          icon={<PlusIcon />}
+          disabled={!signed}
+        />
         <Link href="/" label="Listings" icon={<ListIcon />} />
-        <Link href="/" label="Categories" icon={<ListIcon />} />
+        <Link href="/categories" label="Categories" icon={<ListTreeIcon />} />
         <Link href="/search" label="Search" icon={<SearchIcon />} />
+        <Link
+          href="/wishlist"
+          label="Wishlist"
+          icon={<ShoppingCartIcon />}
+          disabled={!signed}
+        />
       </div>
 
-      {signed ? (
-        <div className="flex gap-2 flex-col">
-          <Link href="/profile" label="Profile" icon={<UserIcon />} />
-          <Link href="/settings" label="Settings" icon={<SettingsIcon />} />
-        </div>
-      ) : (
-        <div className="flex gap-2 flex-col">
-          <Link href="/login" label="Login" icon={<LogInIcon />} />
-          <Link href="/register" label="Register" icon={<UserPlusIcon />} />
-        </div>
-      )}
+      <div className="flex gap-2 flex-col">
+        {signed ? (
+          <>
+            <Link href="/profile" label="Profile" icon={<UserIcon />} />
+            <Link href="/settings" label="Settings" icon={<SettingsIcon />} />
+          </>
+        ) : (
+          <>
+            <Link href="/login" label="Login" icon={<LogInIcon />} />
+            <Link href="/register" label="Register" icon={<UserPlusIcon />} />
+          </>
+        )}
+        <Link href="/about" label="About" icon={<InfoIcon />} />
+      </div>
     </div>
   );
 }
