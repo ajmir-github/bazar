@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <div className="grow">
       <div className="grid">
-        <div className=" grid md:grid-cols-4 p-2 gap-2">
+        <div className=" grid md:grid-cols-4 p-2 pb-0 gap-2">
           <div className="rounded-box border-primary bg-base-100 border-2 shadow-lg p-2 flex justify-center items-center text-xl font-bold box-border gap-2">
             <LinkIcon />
             Follow us on:

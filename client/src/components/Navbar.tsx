@@ -71,10 +71,7 @@ export default function Navbar() {
             <Link href="/settings" label="Settings" icon={<SettingsIcon />} />
           </>
         ) : (
-          <>
-            <Link href="/login" label="Login" icon={<LogInIcon />} />
-            <Link href="/register" label="Register" icon={<UserPlusIcon />} />
-          </>
+          <Link href="/login" label="Login" icon={<LogInIcon />} />
         )}
         <Link href="/about" label="About" icon={<InfoIcon />} />
       </div>

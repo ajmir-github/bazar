@@ -60,44 +60,12 @@ function SignUpForm() {
   );
 }
 
-export default function RegisterRoute() {
+export default function LoginPage() {
   return (
-    <div className="grid">
-      <div className="flex justify-center my-8">
-        <AppIcon size={128} className="text-primary" />
-      </div>
-
-      <div className="p-2 md:p-4">
-        <div role="tablist" className="tabs tabs-lifted tabs-lg">
-          <input
-            type="radio"
-            name="my_tabs_2"
-            role="tab"
-            className="tab"
-            aria-label="Sign In"
-            checked
-          />
-          <div
-            role="tabpanel"
-            className="tab-content  border-base-300 rounded-box p-4 md:p-8"
-          >
-            <SignInForm />
-          </div>
-
-          <input
-            type="radio"
-            name="my_tabs_2"
-            role="tab"
-            className="tab"
-            aria-label="Sign Up"
-          />
-          <div
-            role="tabpanel"
-            className="tab-content  border-base-300 rounded-box p-4 md:p-8"
-          >
-            <SignUpForm />
-          </div>
-        </div>
+    <div className="grow">
+      <div className="grid max-w-screen-md">
+        <div className="bg-red-500 w-full">a</div>
+        <div className="bg-blue-500 w-full">b</div>
       </div>
     </div>
   );
