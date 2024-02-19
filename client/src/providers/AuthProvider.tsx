@@ -1,4 +1,6 @@
 import { authActions, useAppDispatch } from "@/context";
+import User from "@/interfaces/User";
+import axios from "axios";
 import { ReactNode, useEffect, useState } from "react";
 
 function LoadingPage({ message }: { message?: string }) {
@@ -17,9 +19,25 @@ function LoadingPage({ message }: { message?: string }) {
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
+
+  const checkAuth = () => {
+    const token = localStorage.getItem("auth");
+    if (!token) return setLoading(false);
+    axios
+      .get("http://localhost:3001/auth", { headers: { Authorization: token } })
+      .then((response) => {
+        const user = response.data as User;
+        dispatch(authActions.signIn(user));
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
-    dispatch(authActions.signOut());
-    setLoading(false);
+    checkAuth();
   });
   return loading ? <LoadingPage message="Checking authentication" /> : children;
 }

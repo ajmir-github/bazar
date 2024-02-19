@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { useAppSelector } from "@/context";
 import { Outlet, useNavigation } from "react-router-dom";
 
 function LoadingPage() {
@@ -11,10 +12,11 @@ function LoadingPage() {
 
 export default function AppLayout() {
   const navigation = useNavigation();
+  const theme = useAppSelector((state) => state.ui.theme);
   return (
     <div
       className="flex h-screen w-screen overflow-hidden bg-base-300"
-      data-theme="dark"
+      data-theme={theme}
     >
       <Navbar />
       {navigation.state === "loading" ? <LoadingPage /> : <Outlet />}

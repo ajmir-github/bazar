@@ -18,6 +18,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import CategoriesPage from "./pages/CategoriesPage";
 import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/search" element={<SearchPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/settings" element={<SettingsPage />} />
 
       {/* 
   <Route path="/add" element={<AddRoute />} />
