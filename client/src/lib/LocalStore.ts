@@ -4,10 +4,16 @@ export default class LocalStore {
     this.key = key;
   }
   get() {
-    return localStorage.getItem(this.key);
+    return localStorage.getItem(this.key) as string;
   }
   set(value: string) {
     localStorage.setItem(this.key, value);
     return value;
+  }
+  has() {
+    return Boolean(this.get());
+  }
+  clear() {
+    localStorage.removeItem(this.key);
   }
 }

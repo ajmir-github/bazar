@@ -26,13 +26,14 @@ export default function SignInForm() {
   });
   const handleForm = async (inputs: SignInFormObject) => {
     setLoading(true);
+
     axios
-      .post("http://localhost:3001/auth/sign-in", inputs)
+      .post("/auth/sign-in", inputs)
       .then(({ data }) => {
         const { token, user } = data as { token: string; user: User };
         // save local token
         localStorage.setItem("auth", token);
-        dispatch(authActions.signIn(user));
+        dispatch(authActions.signIn({ user, token }));
       })
       .catch((error: AxiosError) => {
         if (error.response?.status === 400) {

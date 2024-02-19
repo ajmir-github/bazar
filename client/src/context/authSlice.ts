@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 // Define a type for the slice state
 interface AuthState {
@@ -18,13 +19,25 @@ const authSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    signIn: (_, { payload }: PayloadAction<object>) => {
+    signIn: (
+      _,
+      {
+        payload: { token, user },
+      }: PayloadAction<{ token: string; user: object }>
+    ) => {
+      localStorage.setItem("auth", token);
+      axios.defaults.headers.common["Authorization"] = token;
+
       return {
         signed: true,
-        user: payload,
+        user,
       };
     },
-    signOut: () => initialState,
+    signOut: () => {
+      localStorage.removeItem("auth");
+      delete axios.defaults.headers.common["Authorization"];
+      return initialState;
+    },
   },
 });
 

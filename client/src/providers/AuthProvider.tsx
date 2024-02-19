@@ -16,28 +16,31 @@ function LoadingPage({ message }: { message?: string }) {
   );
 }
 
+const checkAuth = async (
+  callback: (response?: { token: string; user: object }) => void
+) => {
+  const token = localStorage.getItem("auth");
+  if (!token) return callback();
+  try {
+    const response = await axios.get("/auth");
+    const user = response.data as User;
+    callback({ token, user });
+  } catch (error) {
+    console.log(error);
+    callback();
+  }
+};
+
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
 
-  const checkAuth = () => {
-    const token = localStorage.getItem("auth");
-    if (!token) return setLoading(false);
-    axios
-      .get("http://localhost:3001/auth", { headers: { Authorization: token } })
-      .then((response) => {
-        const user = response.data as User;
-        dispatch(authActions.signIn(user));
-        setLoading(false);
-      })
-      .catch((error: any) => {
-        console.log(error);
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
-    checkAuth();
-  });
+    checkAuth((response) => {
+      // sign out is to clear failed tokens
+      dispatch(response ? authActions.signIn(response) : authActions.signOut());
+      setLoading(false);
+    });
+  }, []);
   return loading ? <LoadingPage message="Checking authentication" /> : children;
 }
