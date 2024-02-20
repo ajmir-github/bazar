@@ -14,10 +14,7 @@ export default function AppLayout() {
   const navigation = useNavigation();
   const theme = useAppSelector((state) => state.ui.theme);
   return (
-    <div
-      className="flex h-screen w-screen overflow-hidden bg-base-300"
-      data-theme={theme}
-    >
+    <div className="flex h-screen w-screen overflow-hidden" data-theme={theme}>
       <Navbar />
       {navigation.state === "loading" ? <LoadingPage /> : <Outlet />}
     </div>

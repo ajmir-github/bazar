@@ -10,7 +10,7 @@ import { useState } from "react";
 function ListingsCard() {
   const [loading, setLoading] = useState(true);
   return (
-    <div className="sm:card card-compact bg-base-100 shadow-lg overflow-hidden relative">
+    <div className="card-compact border-2 border-base-200 bg-base-100 shadow-lg overflow-hidden relative">
       <div className="w-full aspect-video">
         <img
           className={clsx("w-full h-full object-cover", loading && "hidden")}
@@ -56,7 +56,7 @@ function ListingsCard() {
 export default function Listings() {
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   return (
-    <div className="grid py-2 sm:px-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+    <div className="grid sm:p-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-1">
       {items.map((key) => (
         <ListingsCard key={key} />
       ))}

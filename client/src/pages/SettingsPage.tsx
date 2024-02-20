@@ -1,4 +1,6 @@
 import { authActions, useAppDispatch } from "@/context";
+import PageLayout from "@/layouts/PageLayout";
+import { LogOutIcon } from "lucide-react";
 
 const Themes = [
   "light",
@@ -37,14 +39,49 @@ const Themes = [
 
 export default function SettingsPage() {
   const dispatch = useAppDispatch();
+
   return (
-    <div className="grid gap-2 p-2">
-      <button
-        className="btn btn-secondary"
-        onClick={() => dispatch(authActions.signOut())}
-      >
-        Sign out
-      </button>
-    </div>
+    <PageLayout
+      quickOptions={
+        <>
+          <button
+            className="btn btn-ghost"
+            onClick={() => dispatch(authActions.signOut())}
+          >
+            <LogOutIcon />
+            Sign out
+          </button>
+          <button
+            className="btn btn-ghost"
+            onClick={() => dispatch(authActions.signOut())}
+          >
+            <LogOutIcon />
+            Sign out
+          </button>
+        </>
+      }
+      options={"asd"}
+    >
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+      <h1 className="text-5xl">asdasd</h1>
+    </PageLayout>
   );
 }

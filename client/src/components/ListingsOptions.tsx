@@ -20,7 +20,7 @@ export default function ListingsOptions() {
   }
 
   return (
-    <div className="p-2 gap-2 grid grid-cols-2 md:grid-cols-6 items-end bg-base-100 shadow-lg md:sticky top-0 z-10">
+    <div className="gap-2 grid grid-cols-2 md:grid-cols-6 items-end md:sticky top-0 z-10">
       <label className="form-control">
         <div className="label">
           <span className="label-text">Category</span>

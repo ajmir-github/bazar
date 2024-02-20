@@ -1,30 +1,19 @@
 import { ReactNode, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { uiActions, useAppDispatch, useAppSelector } from "@/context";
+import { useAppDispatch, useAppSelector } from "@/context";
 import clsx from "clsx";
 import {
   ShoppingCartIcon,
-  SearchIcon,
   SettingsIcon,
   ListIcon,
   PlusIcon,
   LogInIcon,
   UserIcon,
   InfoIcon,
-  ListTreeIcon,
-  SidebarOpenIcon,
-  ArrowRightIcon,
-  SidebarOpen,
-  SidebarCloseIcon,
-  MoonIcon,
-  SunIcon,
 } from "lucide-react";
 
 export default function Navbar() {
   const signed = useAppSelector((state) => state.auth.signed);
-  const theme = useAppSelector((state) => state.ui.theme);
-  const dispatch = useAppDispatch();
-  const [extend, setExtend] = useState(true);
 
   const Link = ({
     href,
@@ -54,14 +43,14 @@ export default function Navbar() {
   );
 
   return (
-    <div className="flex flex-col justify-between p-2 shadow-lg shrink-0 bg-base-100 ">
-      <div className="flex gap-2 flex-col">
+    <div className="flex flex-col justify-center p-1 sm:p-2 shrink-0 border-r-2 border-base-300">
+      <div className="flex gap-1 flex-col">
         <Link href="/" label="Listings" icon={<ListIcon />} />
-        <Link href="/categories" label="Categories" icon={<ListTreeIcon />} />
-        <Link href="/search" label="Search" icon={<SearchIcon />} />
       </div>
 
-      <div className="flex gap-2 flex-col">
+      <div className="divider"></div>
+
+      <div className="flex gap-1 flex-col">
         <Link
           href="/post"
           label="post"
