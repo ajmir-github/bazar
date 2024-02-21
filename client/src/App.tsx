@@ -12,7 +12,7 @@ import SearchPage from "./pages/SearchPage";
 // import SettingsRoute from "./pages/SettingsRoute";
 // import ProfileRoute from "./pages/ProfileRoute";
 // import RegisterRoute from "./pages/RegisterRoute";
-import ListingsPage from "./pages/ListingsPage";
+import HomePage from "./pages/HomePage";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import CategoriesPage from "./pages/CategoriesPage";
@@ -23,7 +23,7 @@ import SettingsPage from "./pages/SettingsPage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
-      <Route path="/" element={<ListingsPage />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/categories" element={<CategoriesPage />} />
 
       <Route path="/search" element={<SearchPage />} />
