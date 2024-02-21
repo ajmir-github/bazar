@@ -1,39 +1,54 @@
 import { FilterIcon, RotateCcwIcon, XIcon } from "lucide-react";
+import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function ListingsOptions() {
+  const [show, setShow] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function setInput(name: string, value: string) {
-    const prev = Object.fromEntries(searchParams.entries());
-    if (value === "" || value === "*") {
-      if (prev[name]) delete prev[name];
-      setSearchParams(prev);
-    } else {
-      setSearchParams({
-        ...prev,
-        [name]: value,
-      });
+  function getDefaultValue(name: string) {
+    return searchParams.get(name) || "";
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const myFormData = new FormData(event.currentTarget);
+    const params: { [key: string]: string } = {};
+    for (const [key, value] of myFormData.entries()) {
+      if (value) params[key] = value as string;
     }
-  }
-  function getInput(name: string, defaultValue: string = "") {
-    return searchParams.get(name) || defaultValue;
-  }
+    // const prevParams = Object.fromEntries(searchParams.entries());
+    setSearchParams(params);
+    setShow(false);
+  };
+  const handleReset = () => {
+    setSearchParams({}), setShow(false);
+  };
 
   return (
     <>
       {/* The button to open modal */}
       <label
-        htmlFor="my_modal_7"
+        htmlFor="listings-filter-modal"
         className="btn btn-circle btn-primary fixed bottom-4 right-4 z-20"
       >
         <FilterIcon />
       </label>
 
       {/* Put this part before </body> tag */}
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <input
+        type="checkbox"
+        id="listings-filter-modal"
+        className="modal-toggle"
+        checked={show}
+        onChange={(e) => setShow(e.target.checked)}
+      />
       <div className="modal" role="dialog">
-        <div className="modal-box gap-2 grid grid-cols-2">
+        <form
+          className="modal-box gap-2 grid grid-cols-2"
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+        >
           <div className="col-span-2 mb-4 flex items-center gap-2 text-xl">
             <FilterIcon /> Filter Items
           </div>
@@ -43,10 +58,10 @@ export default function ListingsOptions() {
             </div>
             <select
               className="select select-bordered"
-              defaultValue={getInput("category") || "*"}
-              onChange={(e) => setInput("category", e.target.value)}
+              defaultValue={getDefaultValue("category")}
+              name="category"
             >
-              <option value="*">Any</option>
+              <option value="">Any</option>
               <option value="Electronics">Electronics</option>
               <option value="Clothes">Clothes</option>
               <option value="Vahicles">Vahicles</option>
@@ -59,10 +74,10 @@ export default function ListingsOptions() {
             </div>
             <select
               className="select select-bordered"
-              defaultValue={getInput("location") || "*"}
-              onChange={(e) => setInput("location", e.target.value)}
+              defaultValue={getDefaultValue("location")}
+              name="location"
             >
-              <option value="*">Any where</option>
+              <option value="">Any where</option>
               <option value="location::kabul">kabul</option>
               <option value="location::Mazar">Mazar</option>
               <option value="location:Herat">Herat</option>
@@ -76,8 +91,8 @@ export default function ListingsOptions() {
             <input
               type="number"
               className="input input-bordered"
-              defaultValue={getInput("minPrice") || ""}
-              onChange={(e) => setInput("minPrice", e.target.value)}
+              defaultValue={getDefaultValue("minPrice")}
+              name="minPrice"
             />
           </label>
           <label className="form-control">
@@ -87,8 +102,7 @@ export default function ListingsOptions() {
             <input
               type="number"
               className="input input-bordered"
-              defaultValue={getInput("maxPrice") || ""}
-              onChange={(e) => setInput("maxPrice", e.target.value)}
+              defaultValue={getDefaultValue("maxPrice")}
             />
           </label>
 
@@ -98,10 +112,10 @@ export default function ListingsOptions() {
             </div>
             <select
               className="select select-bordered"
-              defaultValue={getInput("condition") || "*"}
-              onChange={(e) => setInput("condition", e.target.value)}
+              defaultValue={getDefaultValue("condition")}
+              name="condition"
             >
-              <option value="*">Any</option>
+              <option value="">Any</option>
               <option value="date::assc">New</option>
               <option value="price::aasdsc">barely used</option>
               <option value="date::desdac">Used</option>
@@ -115,10 +129,10 @@ export default function ListingsOptions() {
             </div>
             <select
               className="select select-bordered"
-              defaultValue={getInput("sort") || "*"}
-              onChange={(e) => setInput("sort", e.target.value)}
+              defaultValue={getDefaultValue("sort") || "*"}
+              name="sort"
             >
-              <option value="*">Sort Newest</option>
+              <option value="">Sort Newest</option>
               <option value="date::desc">Sort Oldest</option>
 
               <option value="price::asc">Sort Heighest</option>
@@ -127,24 +141,24 @@ export default function ListingsOptions() {
           </label>
 
           <div className="join gap-1 col-span-2 mt-4">
-            <button className="join-item grow btn btn-primary">
+            <button className="join-item grow btn btn-primary" type="submit">
               <FilterIcon />
               Filter
             </button>
-            <button className="join-item grow btn btn-warning">
+            <button className="join-item grow btn btn-warning" type="reset">
               <RotateCcwIcon />
               Reset
             </button>
             <label
               className="join-item grow btn btn-error"
-              htmlFor="my_modal_7"
+              htmlFor="listings-filter-modal"
             >
               <XIcon />
               Close
             </label>
           </div>
-        </div>
-        <label className="modal-backdrop" htmlFor="my_modal_7">
+        </form>
+        <label className="modal-backdrop" htmlFor="listings-filter-modal">
           Close
         </label>
       </div>
