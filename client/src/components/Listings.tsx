@@ -34,10 +34,7 @@ function ListingsCard({ signed }: { signed: boolean }) {
       <div className="flex items-center gap-1 absolute top-4 left-4 bg-base-100 py-1 px-2 rounded-box text-base">
         <TagIcon size={16} /> $203
       </div>
-      <Link
-        to={"/"}
-        className=" btn btn-circle btn-warning absolute top-4 right-4"
-      >
+      <Link to={"/"} className="btn btn-circle absolute top-4 right-4">
         <EditIcon />
       </Link>
       <div className="card-body">
