@@ -7,10 +7,11 @@ export default function HomePage() {
     <div className="grow overflow-y-scroll">
       <ListingsOptions />
       <Listings />
-      <LoadMore loadMore={() => console.log("loadmore")}>
-        <div className="m-8 flex justify-center">
-          <div className="loading"></div>
-        </div>
+      <LoadMore
+        loadMore={() => console.log("loadmore")}
+        className="m-8 flex justify-center"
+      >
+        <div className="loading"></div>
       </LoadMore>
     </div>
   );

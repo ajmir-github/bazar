@@ -1,6 +1,4 @@
-import Listings from "@/components/Listings";
-
-export default function SearchPage() {
+export default function WishlistPage() {
   return (
     <div className="overflow-y-scroll grow">
       <div className="p-2 bg-base-100 shadow-lg sticky top-0 z-10">
@@ -24,7 +22,6 @@ export default function SearchPage() {
           </svg>
         </label>
       </div>
-      <Listings />
     </div>
   );
 }

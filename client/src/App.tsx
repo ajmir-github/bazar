@@ -1,35 +1,48 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { Route, createRoutesFromElements } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // layouts
 import AppLayout from "./layouts/AppLayout";
 // routes
-// import AddRoute from "./pages/AddRoute";
-import SearchPage from "./pages/SearchPage";
-// import SettingsRoute from "./pages/SettingsRoute";
-// import ProfileRoute from "./pages/ProfileRoute";
-// import RegisterRoute from "./pages/RegisterRoute";
 import HomePage from "./pages/HomePage";
-
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import CategoriesPage from "./pages/CategoriesPage";
 import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
-import SettingsPage from "./pages/SettingsPage";
+import ProfilePage from "./pages/ProfilePage";
+import WishlistPage from "./pages/WishlistPage";
+import PostPage from "./pages/PostPage";
+import ProtectRoute from "./components/ProtectRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
       <Route path="/" element={<HomePage />} />
-      <Route path="/categories" element={<CategoriesPage />} />
 
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/about" element={<AboutPage />} />
+      <Route
+        path="/wishlist"
+        element={
+          <ProtectRoute>
+            <WishlistPage />
+          </ProtectRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectRoute>
+            <ProfilePage />
+          </ProtectRoute>
+        }
+      />
+      <Route
+        path="/post"
+        element={
+          <ProtectRoute>
+            <PostPage />
+          </ProtectRoute>
+        }
+      />
+
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/about" element={<AboutPage />} />
 
       {/* 
   <Route path="/add" element={<AddRoute />} />

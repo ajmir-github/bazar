@@ -16,7 +16,7 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     changeTheme: (state, action: PayloadAction<Theme>) => {
-      state.theme = action.payload;
+      state.theme = localTheme.set(action.payload) as Theme;
     },
   },
 });

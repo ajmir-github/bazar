@@ -60,8 +60,8 @@ export default function Navbar() {
       <div className="flex flex-col gap-1">
         <Link to={"/about"} className="grow flex justify-center">
           <img
-            className="w-12 sm:w-24 border-2 border-base-200 rounded-full"
-            src="/images/logo.png"
+            className="w-12 sm:w-24 border-2 border-base-200 "
+            src="/images/logo.jpg"
             alt="logo"
           />
         </Link>

@@ -1,3 +1,5 @@
+import Categories from "@/constants/Categories";
+import Locations from "@/constants/Locations";
 import { FilterIcon, RotateCcwIcon, XIcon } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -62,9 +64,11 @@ export default function ListingsOptions() {
               name="category"
             >
               <option value="">Any</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothes">Clothes</option>
-              <option value="Vahicles">Vahicles</option>
+              {Categories.map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name.en}
+                </option>
+              ))}
             </select>
           </label>
 
@@ -78,9 +82,11 @@ export default function ListingsOptions() {
               name="location"
             >
               <option value="">Any where</option>
-              <option value="location::kabul">kabul</option>
-              <option value="location::Mazar">Mazar</option>
-              <option value="location:Herat">Herat</option>
+              {Locations.map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name.en}
+                </option>
+              ))}
             </select>
           </label>
 

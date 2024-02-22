@@ -3,8 +3,10 @@ import { ReactNode, useEffect, useRef } from "react";
 export default function LoadMore({
   loadMore,
   children,
+  className,
 }: {
   children: ReactNode;
+  className?: string;
   loadMore: () => void;
 }) {
   const observerTarget = useRef(null);
@@ -30,5 +32,9 @@ export default function LoadMore({
     };
   }, [observerTarget]);
 
-  return <div ref={observerTarget}>{children}</div>;
+  return (
+    <div className={className} ref={observerTarget}>
+      {children}
+    </div>
+  );
 }

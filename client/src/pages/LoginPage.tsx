@@ -1,60 +1,9 @@
 import SignInForm from "@/components/SignInForm";
+import SignUpForm from "@/components/SignUpForm";
 import { useAppSelector } from "@/context";
 import { UserPlusIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-function SignUpForm() {
-  return (
-    <form className="grid gap-4">
-      <div className="flex items-center gap-2">
-        <UserPlusIcon /> Sign Up here!
-      </div>
-      <div className="grid md:grid-cols-2 gap-2 my-4">
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Full Name</span>
-          </label>
-          <input type="text" className="input input-bordered" required />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Email</span>
-          </label>
-          <input type="email" className="input input-bordered" required />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Password</span>
-          </label>
-          <input type="password" className="input input-bordered" required />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Confirm Password</span>
-          </label>
-          <input
-            type="confirmPassword"
-            className="input input-bordered"
-            required
-          />
-        </div>
-      </div>
-      <div className="flex justify-between gap-2 items-center">
-        <div className="p-2">
-          <div className="loading"></div>
-        </div>
-        <div className="form-control">
-          <button className="btn btn-primary">
-            <UserPlusIcon />
-            Sign up
-          </button>
-        </div>
-      </div>
-    </form>
-  );
-}
 
 export default function LoginPage() {
   const signed = useAppSelector((state) => state.auth.signed);
@@ -64,12 +13,34 @@ export default function LoginPage() {
     if (signed) navigate("/profile");
   }, [signed]);
   return (
-    <div className="grow overflow-y-scroll">
-      <div className="grid p-2 gap-2">
-        <div className="p-4 bg-base-100 rounded-box shadow-lg">
+    <div className="grow overflow-y-scroll flex justify-center items-center p-2 gap-2">
+      <div role="tablist" className="tabs tabs-lifted  grow max-w-screen-md">
+        <input
+          type="radio"
+          name="login-tabs"
+          role="tab"
+          className="tab"
+          aria-label="Sign In"
+          checked
+        />
+        <div
+          role="tabpanel"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-4"
+        >
           <SignInForm />
         </div>
-        <div className="p-4 bg-base-100 rounded-box shadow-lg">
+
+        <input
+          type="radio"
+          name="login-tabs"
+          role="tab"
+          className="tab"
+          aria-label="Sign Up"
+        />
+        <div
+          role="tabpanel"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-4"
+        >
           <SignUpForm />
         </div>
       </div>
