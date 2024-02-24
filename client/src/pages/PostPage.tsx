@@ -2,18 +2,19 @@ import Categories from "@/constants/Categories";
 import Conditions from "@/constants/Conditions";
 import Locations from "@/constants/Locations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LogInIcon, PlusIcon } from "lucide-react";
+import axios, { AxiosError } from "axios";
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const PostFormValidator = z.object({
   title: z.string().min(3),
-  category: z.string().min(1),
-  location: z.string().min(1),
+  category: z.string(),
+  location: z.string(),
   description: z.string(),
   condition: z.string(),
-  price: z.string(),
+  price: z.string().transform((str) => +str),
   negotiatable: z.boolean(),
 });
 
@@ -33,7 +34,23 @@ export default function PostPage() {
   });
 
   const handleForm = async (inputs: PostFormObject) => {
-    console.log(inputs);
+    setLoading(true);
+    axios
+      .post("/post", inputs)
+      .then(({ data }) => {
+        console.log(data);
+        alert("Post created!");
+      })
+      .catch((response: any) => {
+        if (response instanceof AxiosError) {
+          const errors = response.response?.data as object;
+          for (const [name, message] of Object.entries(errors)) {
+            form.setError(name as keyof PostFormObject, { message });
+          }
+        }
+        console.error(response);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

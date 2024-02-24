@@ -12,9 +12,9 @@ const postValidator = z.object({
   price: z.number().nonnegative().int(),
   negotiatable: z.boolean(),
   available: z.boolean().default(true),
-  images: z.array(z.string()),
+  images: z.array(z.string()).default([]),
   deleteAt: z.date().optional(),
-  createdAt: z.date().default(Date.now),
+  createdAt: z.date().default(() => new Date()),
   view: z.number().nonnegative().int().default(0),
 });
 

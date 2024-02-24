@@ -1,10 +1,11 @@
+import User from "@/interfaces/User";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Define a type for the slice state
 interface AuthState {
-  user: null | object;
+  user: null | User;
   signed: boolean;
 }
 
@@ -21,9 +22,7 @@ const authSlice = createSlice({
   reducers: {
     signIn: (
       _,
-      {
-        payload: { token, user },
-      }: PayloadAction<{ token: string; user: object }>
+      { payload: { token, user } }: PayloadAction<{ token: string; user: User }>
     ) => {
       localStorage.setItem("auth", token);
       axios.defaults.headers.common["Authorization"] = token;
